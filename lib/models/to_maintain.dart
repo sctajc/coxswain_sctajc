@@ -16,7 +16,7 @@ enum ToMaintain {
   Power,
 }
 
-const TargetToMaintainString = <ToMaintain, String>{
+const ToMaintainString = <ToMaintain, String>{
   ToMaintain.None: "None",
   ToMaintain.Speed: "Speed/Pace",
   ToMaintain.Pulse: "Pulse",

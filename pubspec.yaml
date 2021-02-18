@@ -34,6 +34,7 @@ dependencies:
   font_awesome_flutter:
   direct_select_flutter:
   toggle_switch:
+  intl:
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,7 @@
 import 'package:coxswain/models/program.dart';
 import 'package:coxswain/models/segment.dart';
 import 'package:coxswain/screens/programs/program_add_edit.dart';
-import 'package:coxswain/screens/user_settings/user_settings.dart';
+import 'package:coxswain/screens/workouts/workout_screen.dart';
 import 'package:coxswain/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,26 +9,24 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ProgramList extends StatelessWidget {
-  final screenWidth = Get.width;
+  final _screenWidth = Get.width;
 
   @override
   Widget build(BuildContext context) {
-    Box<Program> programBox = Hive.box<Program>(programBoxName);
-    Box<Segment> segmentBox = Hive.box<Segment>(segmentBoxName);
+    Box<Program> _programBox = Hive.box<Program>(programBoxName);
+    Box<Segment> _segmentBox = Hive.box<Segment>(segmentBoxName);
 
-    // print('ProgramList - Total Programs: ${programBox.length}');
-    // print('ProgramList - Total Segments: ${segmentBox.length}');
-
-    // programBox.values.where((item) => item.programId > 0).forEach(
-    //   (item) {
-    //     print(
-    //       'program Id ${item.programId} - ${item.programName}',
-    //     );
-    //   },
-    // );
+    print('Existing programs');
+    _programBox.values.where((item) => item.programId > 0).forEach(
+      (item) {
+        print(
+          'program Id ${item.programId} - name: ${item.programName}',
+        );
+      },
+    );
     print('    ');
-
-    segmentBox.values.where((item) => item.programId > 0).forEach(
+    print('Existing segments');
+    _segmentBox.values.where((item) => item.programId > 0).forEach(
       (item) {
         print(
           'prog Id ${item.programId} - seg ${item.segmentId}, key ${item.key},}',
@@ -37,49 +35,54 @@ class ProgramList extends StatelessWidget {
     );
     print('    ');
 
-    // programBox.clear();
-    // segmentBox.clear();
-    // segmentBox.delete(21);
+    // _programBox.clear();
+    // _segmentBox.clear();
+    // _segmentBox.delete(21);
 
-    int programKeyToUse = 0;
-    if (programBox.length > 0) {
-      programKeyToUse = programBox.getAt(programBox.length - 1).key + 1;
+    int _programKeyToUse = 0;
+    if (_programBox.length > 0) {
+      _programKeyToUse = _programBox.getAt(_programBox.length - 1).key + 1;
     }
 
-    // int programKeyToUse = programBox.getAt(programBox.length - 1).key + 1;
+    // int _programKeyToUse = _programBox.getAt(_programBox.length - 1).key + 1;
     // print('screen width: $screenWidth');
     return ValueListenableBuilder(
       valueListenable: Hive.box<Program>(programBoxName).listenable(),
-      builder: (context, Box<Program> theProgram, _) {
-        if (theProgram.values.isEmpty)
+      builder: (context, Box<Program> _theProgram, _) {
+        if (_theProgram.values.isEmpty)
           return Center(
-            child: Text("${theProgram.values.length} - no programs"),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                "You have no Programs. Hit the plus below to enter a program",
+                style: TextStyle(
+                  color: kColorBlue,
+                ),
+              ),
+            ),
           );
         return ListView.builder(
-          itemCount: theProgram.values.length,
-          itemBuilder: (context, index) {
-            Program currentProgram = theProgram.getAt(index);
-            // print('current program: ${currentProgram.programName}');
+          itemCount: _theProgram.values.length,
+          itemBuilder: (context, _index) {
+            Program _currentProgram = _theProgram.getAt(_index);
 
-            //TODO must be a better way of getting segment totals
-            int segmentTotalForProgram = 0;
-            for (int i = 0; i < segmentBox.length; i++) {
-              Segment currentSegment = segmentBox.getAt(i);
-              if (currentSegment.programId == currentProgram.programId) {
-                segmentTotalForProgram += 1;
-              }
-            }
+            int _segmentTotalForProgram = 0;
+            _segmentBox.values
+                .where((element) => element.programId == _currentProgram.programId)
+                .forEach((element) {
+              _segmentTotalForProgram += 1;
+            });
             print(
-              'For Program ${currentProgram.programId} segment total: $segmentTotalForProgram',
+              'For Program ${_currentProgram.programId} segment total: $_segmentTotalForProgram',
             );
 
             return ListTile(
               title: Row(
                 children: [
                   SizedBox(
-                    width: screenWidth * .45,
+                    width: _screenWidth * .45,
                     child: Text(
-                      '${currentProgram.programName}',
+                      '${_currentProgram.programName}',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -88,7 +91,7 @@ class ProgramList extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: screenWidth * 0.25,
+                    width: _screenWidth * 0.25,
                     child: Text(
                       '28 minutes',
                       style: TextStyle(
@@ -106,16 +109,16 @@ class ProgramList extends StatelessWidget {
                     children: [
                       Container(
                         color: Colors.blue,
-                        width: screenWidth * .10,
+                        width: _screenWidth * .10,
                         height: 17,
                       ),
                       Container(
-                        width: screenWidth * .45,
+                        width: _screenWidth * .45,
                         height: 17,
                         color: Colors.orange,
                       ),
                       Container(
-                        width: screenWidth * .15,
+                        width: _screenWidth * .15,
                         height: 17,
                         color: Colors.purple,
                       ),
@@ -123,14 +126,21 @@ class ProgramList extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text('Prog Id: ${currentProgram.programId},'
-                          ' segments: $segmentTotalForProgram'
-                          ' key: ${currentProgram.key}, index: $index,'),
+                      Text(
+                        'Prog Id: ${_currentProgram.programId},'
+                        ' segments: $_segmentTotalForProgram'
+                        ' key: ${_currentProgram.key}, index: $_index,',
+                        style: TextStyle(fontSize: 10),
+                      ),
                     ],
                   ),
                 ],
               ),
-              onTap: () {},
+              onTap: () {
+                Get.to(
+                  WorkoutScreen(),
+                );
+              },
               trailing: PopupMenuButton(
                 color: Colors.blue[300],
                 itemBuilder: (BuildContext context) {
@@ -138,7 +148,11 @@ class ProgramList extends StatelessWidget {
                     PopupMenuItem(
                       child: FlatButton(
                         child: Text('Select'),
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.off(
+                            WorkoutScreen(),
+                          );
+                        },
                       ),
                     ),
                     PopupMenuItem(
@@ -147,7 +161,7 @@ class ProgramList extends StatelessWidget {
                         onPressed: () {
                           Get.off(
                             ProgramAddEdit(
-                              currentProgramKey: currentProgram.key,
+                              currentProgramKey: _currentProgram.key,
                             ),
                           );
                         },
@@ -169,11 +183,10 @@ class ProgramList extends StatelessWidget {
                       child: FlatButton(
                         child: Text('Duplicate'),
                         onPressed: () {
-                          programBox.add(
+                          _programBox.add(
                             Program(
-                                programId: programKeyToUse,
-                                programName:
-                                    '${currentProgram.programName} - Duplicate'),
+                                programId: _programKeyToUse,
+                                programName: '${_currentProgram.programName} - Duplicate'),
                           );
                           Get.back();
                         },
@@ -183,7 +196,11 @@ class ProgramList extends StatelessWidget {
                       child: FlatButton(
                         child: Text('Delete'),
                         onPressed: () {
-                          currentProgram.delete();
+                          _currentProgram.delete();
+                          _segmentBox.values
+                              .where((element) => element.programId == _currentProgram.programId)
+                              .forEach((element) => element.delete());
+
                           Get.back();
                         },
                       ),

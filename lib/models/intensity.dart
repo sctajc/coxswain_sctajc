@@ -12,11 +12,12 @@ enum Intensity {
   MediumYellow,
   @HiveField(3)
   HardOrange,
-
   @HiveField(4)
   CoolDownGrey,
   @HiveField(5)
   StretchingPurple,
+  @HiveField(6)
+  RestWhite,
 }
 
 const IntensityString = <Intensity, String>{
@@ -26,4 +27,5 @@ const IntensityString = <Intensity, String>{
   Intensity.HardOrange: "Hard",
   Intensity.CoolDownGrey: "Cool down",
   Intensity.StretchingPurple: "Stretching",
+  Intensity.RestWhite: "Rest",
 };

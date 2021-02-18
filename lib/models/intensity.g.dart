@@ -25,6 +25,8 @@ class IntensityAdapter extends TypeAdapter<Intensity> {
         return Intensity.CoolDownGrey;
       case 5:
         return Intensity.StretchingPurple;
+      case 6:
+        return Intensity.RestWhite;
       default:
         return null;
     }
@@ -50,6 +52,9 @@ class IntensityAdapter extends TypeAdapter<Intensity> {
         break;
       case Intensity.StretchingPurple:
         writer.writeByte(5);
+        break;
+      case Intensity.RestWhite:
+        writer.writeByte(6);
         break;
     }
   }
