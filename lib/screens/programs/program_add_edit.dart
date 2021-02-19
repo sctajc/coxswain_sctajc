@@ -156,357 +156,364 @@ class _ProgramAddEditState extends State<ProgramAddEdit> {
             height: 10,
           ),
           Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: Hive.box<Segment>(segmentBoxName).listenable(),
-              builder: (context, Box<Segment> _theSegment, _) {
-                Icon deleteIconToDisplay = Icon(Icons.delete);
+            child: Scrollbar(
+              child: ValueListenableBuilder(
+                valueListenable: Hive.box<Segment>(segmentBoxName).listenable(),
+                builder: (context, Box<Segment> _theSegment, _) {
+                  Icon deleteIconToDisplay = Icon(Icons.delete);
 
-                int _segmentTotalForProgram = 0;
-                _segmentBox.values
-                    .where((element) => element.programId == _programIdToUse)
-                    .forEach((element) {
-                  _segmentTotalForProgram += 1;
-                });
+                  int _segmentTotalForProgram = 0;
+                  _segmentBox.values
+                      .where((element) => element.programId == _programIdToUse)
+                      .forEach((element) {
+                    _segmentTotalForProgram += 1;
+                  });
 
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _theSegment.values.length,
-                  itemBuilder: (context, index) {
-                    if (_segmentTotalForProgram < 2) {
-                      deleteIconToDisplay = Icon(Icons.delete_outline);
-                    }
-
-                    if (_theSegment.getAt(index).programId == _programIdToUse) {
-                      int currentIndex = index;
-                      int currentPropertyId = _theSegment.getAt(index).programId;
-                      int currentSequenceId = _theSegment.getAt(index).segmentId;
-                      int currentKey = _theSegment.getAt(index).key;
-                      ToComplete currentToComplete = _theSegment.getAt(index).toComplete;
-                      int currentValueToComplete = _theSegment.getAt(index).valueToComplete;
-                      ToMaintain currentToMaintain = _theSegment.getAt(index).toMaintain;
-                      int currentValueToMaintain = _theSegment.getAt(index).valueToMaintain;
-                      if (currentToMaintain == ToMaintain.None) {
-                        currentValueToMaintain = 0;
-                      }
-                      Intensity currentIntensity = _theSegment.getAt(index).intensity;
-                      switch (currentIntensity) {
-                        case Intensity.WarmUpBlue:
-                          {
-                            segmentIntensityColor = Colors.blue;
-                          }
-                          break;
-
-                        case Intensity.EasyGreen:
-                          {
-                            segmentIntensityColor = Colors.greenAccent;
-                          }
-                          break;
-
-                        case Intensity.MediumYellow:
-                          {
-                            segmentIntensityColor = Colors.yellowAccent;
-                          }
-                          break;
-                        case Intensity.HardOrange:
-                          {
-                            segmentIntensityColor = Colors.deepOrangeAccent;
-                          }
-                          break;
-                        case Intensity.CoolDownGrey:
-                          {
-                            segmentIntensityColor = Colors.blueGrey;
-                          }
-                          break;
-
-                        case Intensity.StretchingPurple:
-                          {
-                            segmentIntensityColor = Colors.purple;
-                          }
-                          break;
-
-                        case Intensity.RestWhite:
-                          {
-                            segmentIntensityColor = Colors.white;
-                          }
-                          break;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _theSegment.values.length,
+                    itemBuilder: (context, index) {
+                      if (_segmentTotalForProgram < 2) {
+                        deleteIconToDisplay = Icon(Icons.delete_outline);
                       }
 
-                      return ListTile(
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(10, 0, 1, 0),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          width: 120,
-                                          child: Container(
-                                            alignment: Alignment.bottomLeft,
-                                            color: Colors.grey[300],
-                                            child: Padding(
-                                              padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                                              child: TextFormField(
-                                                  keyboardType: TextInputType.number,
-                                                  initialValue: currentValueToComplete.toString(),
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      currentValueToComplete = int.parse(value);
-                                                      print('Ok went here line 280');
-                                                      _theSegment.put(
-                                                          currentKey,
-                                                          Segment(
-                                                            programId: currentPropertyId,
-                                                            segmentId: currentSequenceId,
-                                                            toComplete: currentToComplete,
-                                                            valueToComplete: currentValueToComplete,
-                                                            toMaintain: currentToMaintain,
-                                                            valueToMaintain: currentValueToMaintain,
-                                                            intensity: currentIntensity,
-                                                          ));
-                                                    });
-                                                  }),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 1,
-                                        ),
+                      if (_theSegment.getAt(index).programId == _programIdToUse) {
+                        int currentIndex = index;
+                        int currentPropertyId = _theSegment.getAt(index).programId;
+                        int currentSequenceId = _theSegment.getAt(index).segmentId;
+                        int currentKey = _theSegment.getAt(index).key;
+                        ToComplete currentToComplete = _theSegment.getAt(index).toComplete;
+                        int currentValueToComplete = _theSegment.getAt(index).valueToComplete;
+                        ToMaintain currentToMaintain = _theSegment.getAt(index).toMaintain;
+                        int currentValueToMaintain = _theSegment.getAt(index).valueToMaintain;
+                        if (currentToMaintain == ToMaintain.None) {
+                          currentValueToMaintain = 0;
+                        }
+                        Intensity currentIntensity = _theSegment.getAt(index).intensity;
+                        switch (currentIntensity) {
+                          case Intensity.WarmUpBlue:
+                            {
+                              segmentIntensityColor = Colors.blue;
+                            }
+                            break;
 
-                                        // To complete drop down
-                                        SizedBox(
-                                          width: 120,
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            color: Colors.grey[300],
-                                            child: Padding(
-                                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                              child: DropdownButton<ToComplete>(
-                                                underline: Container(color: Colors.transparent),
-                                                items: ToCompleteString.keys.map(
-                                                  (ToComplete value) {
-                                                    return DropdownMenuItem<ToComplete>(
-                                                      value: value,
-                                                      child: Text(
-                                                        ToCompleteString[value],
-                                                        style: TextStyle(fontSize: 12),
-                                                      ),
-                                                    );
-                                                  },
-                                                ).toList(),
-                                                value: currentToComplete,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    currentToComplete = value;
-                                                    _theSegment.put(
-                                                      currentKey,
-                                                      Segment(
-                                                        programId: currentPropertyId,
-                                                        segmentId: currentSequenceId,
-                                                        toComplete: currentToComplete,
-                                                        valueToComplete: currentValueToComplete,
-                                                        toMaintain: currentToMaintain,
-                                                        valueToMaintain: currentValueToMaintain,
-                                                        intensity: currentIntensity,
-                                                      ),
-                                                    );
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          width: 120,
-                                          child: Container(
-                                            color: Colors.grey[300],
-                                            child: Padding(
-                                              padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                                              child: TextFormField(
-                                                  keyboardType: TextInputType.number,
-                                                  initialValue: currentValueToMaintain.toString(),
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  onChanged: (value) {
-                                                    if (currentToMaintain == ToMaintain.None) {
-                                                      value = 0.toString();
-                                                    }
-                                                    setState(() {
-                                                      currentValueToMaintain = int.parse(value);
-                                                      _theSegment.put(
-                                                          currentKey,
-                                                          Segment(
-                                                            programId: currentPropertyId,
-                                                            segmentId: currentSequenceId,
-                                                            toComplete: currentToComplete,
-                                                            valueToComplete: currentValueToComplete,
-                                                            toMaintain: currentToMaintain,
-                                                            valueToMaintain: currentValueToMaintain,
-                                                            intensity: currentIntensity,
-                                                          ));
-                                                    });
-                                                  }),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 1,
-                                        ),
-                                        SizedBox(
-                                          width: 120,
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            color: Colors.grey[300],
-                                            child: Padding(
-                                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                              child: DropdownButton<ToMaintain>(
-                                                underline: Container(color: Colors.transparent),
-                                                items: ToMaintainString.keys.map(
-                                                  (ToMaintain value) {
-                                                    return DropdownMenuItem<ToMaintain>(
-                                                      value: value,
-                                                      child: Text(
-                                                        ToMaintainString[value],
-                                                        style: TextStyle(fontSize: 12),
-                                                      ),
-                                                    );
-                                                  },
-                                                ).toList(),
-                                                value: currentToMaintain,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    currentToMaintain = value;
-                                                    _theSegment.put(
-                                                      currentKey,
-                                                      Segment(
-                                                        programId: currentPropertyId,
-                                                        segmentId: currentSequenceId,
-                                                        toComplete: currentToComplete,
-                                                        valueToComplete: currentValueToComplete,
-                                                        toMaintain: currentToMaintain,
-                                                        valueToMaintain: currentValueToMaintain,
-                                                        intensity: currentIntensity,
-                                                      ),
-                                                    );
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  GestureDetector(
-                                    child: deleteIconToDisplay,
-                                    onTap: () {
-                                      setState(() {
-                                        if (_segmentTotalForProgram > 1) {
-                                          _theSegment.deleteAt(index);
-                                        } else {
-                                          Get.snackbar('Can not delete this segment. ',
-                                              'A Program requires at least one Segment. ',
-                                              snackPosition: SnackPosition.BOTTOM);
-                                        }
-                                      });
-                                    },
-                                  ),
-                                ],
+                          case Intensity.EasyGreen:
+                            {
+                              segmentIntensityColor = Colors.greenAccent;
+                            }
+                            break;
+
+                          case Intensity.MediumYellow:
+                            {
+                              segmentIntensityColor = Colors.yellowAccent;
+                            }
+                            break;
+                          case Intensity.HardOrange:
+                            {
+                              segmentIntensityColor = Colors.deepOrangeAccent;
+                            }
+                            break;
+                          case Intensity.CoolDownGrey:
+                            {
+                              segmentIntensityColor = Colors.blueGrey;
+                            }
+                            break;
+
+                          case Intensity.StretchingPurple:
+                            {
+                              segmentIntensityColor = Colors.purple;
+                            }
+                            break;
+
+                          case Intensity.RestWhite:
+                            {
+                              segmentIntensityColor = Colors.white;
+                            }
+                            break;
+                        }
+
+                        return ListTile(
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 5,
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                              child: SizedBox(
-                                width: 241,
-                                child: Container(
-                                  color: segmentIntensityColor,
-                                  height: 40,
-                                  // color: Colors.orange,
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(23, 0, 0, 0),
-                                    child: DropdownButton<Intensity>(
-                                      underline: Container(color: Colors.transparent),
-                                      items: IntensityString.keys.map(
-                                        (Intensity value) {
-                                          return DropdownMenuItem<Intensity>(
-                                            value: value,
-                                            child: Text(
-                                              IntensityString[value],
-                                              style: TextStyle(fontSize: 12),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(10, 0, 1, 0),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            width: 120,
+                                            child: Container(
+                                              alignment: Alignment.bottomLeft,
+                                              color: Colors.grey[300],
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                                                child: TextFormField(
+                                                    keyboardType: TextInputType.number,
+                                                    initialValue: currentValueToComplete.toString(),
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                    ),
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        currentValueToComplete = int.parse(value);
+                                                        print('Ok went here line 280');
+                                                        _theSegment.put(
+                                                            currentKey,
+                                                            Segment(
+                                                              programId: currentPropertyId,
+                                                              segmentId: currentSequenceId,
+                                                              toComplete: currentToComplete,
+                                                              valueToComplete:
+                                                                  currentValueToComplete,
+                                                              toMaintain: currentToMaintain,
+                                                              valueToMaintain:
+                                                                  currentValueToMaintain,
+                                                              intensity: currentIntensity,
+                                                            ));
+                                                      });
+                                                    }),
+                                              ),
                                             ),
-                                          );
-                                        },
-                                      ).toList(),
-                                      value: currentIntensity,
-                                      onChanged: (value) {
+                                          ),
+                                          SizedBox(
+                                            height: 1,
+                                          ),
+
+                                          // To complete drop down
+                                          SizedBox(
+                                            width: 120,
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              color: Colors.grey[300],
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                                child: DropdownButton<ToComplete>(
+                                                  underline: Container(color: Colors.transparent),
+                                                  items: ToCompleteString.keys.map(
+                                                    (ToComplete value) {
+                                                      return DropdownMenuItem<ToComplete>(
+                                                        value: value,
+                                                        child: Text(
+                                                          ToCompleteString[value],
+                                                          style: TextStyle(fontSize: 12),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                  value: currentToComplete,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      currentToComplete = value;
+                                                      _theSegment.put(
+                                                        currentKey,
+                                                        Segment(
+                                                          programId: currentPropertyId,
+                                                          segmentId: currentSequenceId,
+                                                          toComplete: currentToComplete,
+                                                          valueToComplete: currentValueToComplete,
+                                                          toMaintain: currentToMaintain,
+                                                          valueToMaintain: currentValueToMaintain,
+                                                          intensity: currentIntensity,
+                                                        ),
+                                                      );
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            width: 120,
+                                            child: Container(
+                                              color: Colors.grey[300],
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                                                child: TextFormField(
+                                                    keyboardType: TextInputType.number,
+                                                    initialValue: currentValueToMaintain.toString(),
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                    ),
+                                                    onChanged: (value) {
+                                                      if (currentToMaintain == ToMaintain.None) {
+                                                        value = 0.toString();
+                                                      }
+                                                      setState(() {
+                                                        currentValueToMaintain = int.parse(value);
+                                                        _theSegment.put(
+                                                            currentKey,
+                                                            Segment(
+                                                              programId: currentPropertyId,
+                                                              segmentId: currentSequenceId,
+                                                              toComplete: currentToComplete,
+                                                              valueToComplete:
+                                                                  currentValueToComplete,
+                                                              toMaintain: currentToMaintain,
+                                                              valueToMaintain:
+                                                                  currentValueToMaintain,
+                                                              intensity: currentIntensity,
+                                                            ));
+                                                      });
+                                                    }),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 1,
+                                          ),
+                                          SizedBox(
+                                            width: 120,
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              color: Colors.grey[300],
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                                child: DropdownButton<ToMaintain>(
+                                                  underline: Container(color: Colors.transparent),
+                                                  items: ToMaintainString.keys.map(
+                                                    (ToMaintain value) {
+                                                      return DropdownMenuItem<ToMaintain>(
+                                                        value: value,
+                                                        child: Text(
+                                                          ToMaintainString[value],
+                                                          style: TextStyle(fontSize: 12),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                  value: currentToMaintain,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      currentToMaintain = value;
+                                                      _theSegment.put(
+                                                        currentKey,
+                                                        Segment(
+                                                          programId: currentPropertyId,
+                                                          segmentId: currentSequenceId,
+                                                          toComplete: currentToComplete,
+                                                          valueToComplete: currentValueToComplete,
+                                                          toMaintain: currentToMaintain,
+                                                          valueToMaintain: currentValueToMaintain,
+                                                          intensity: currentIntensity,
+                                                        ),
+                                                      );
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Spacer(),
+                                    GestureDetector(
+                                      child: deleteIconToDisplay,
+                                      onTap: () {
                                         setState(() {
-                                          currentIntensity = value;
-                                          _theSegment.put(
-                                            currentKey,
-                                            Segment(
-                                              programId: currentPropertyId,
-                                              segmentId: currentSequenceId,
-                                              toComplete: currentToComplete,
-                                              valueToComplete: currentValueToComplete,
-                                              toMaintain: currentToMaintain,
-                                              valueToMaintain: currentValueToMaintain,
-                                              intensity: currentIntensity,
-                                            ),
-                                          );
+                                          if (_segmentTotalForProgram > 1) {
+                                            _theSegment.deleteAt(index);
+                                          } else {
+                                            Get.snackbar('Can not delete this segment. ',
+                                                'A Program requires at least one Segment. ',
+                                                snackPosition: SnackPosition.BOTTOM);
+                                          }
                                         });
                                       },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: SizedBox(
+                                  width: 241,
+                                  child: Container(
+                                    color: segmentIntensityColor,
+                                    height: 40,
+                                    // color: Colors.orange,
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(23, 0, 0, 0),
+                                      child: DropdownButton<Intensity>(
+                                        underline: Container(color: Colors.transparent),
+                                        items: IntensityString.keys.map(
+                                          (Intensity value) {
+                                            return DropdownMenuItem<Intensity>(
+                                              value: value,
+                                              child: Text(
+                                                IntensityString[value],
+                                                style: TextStyle(fontSize: 12),
+                                              ),
+                                            );
+                                          },
+                                        ).toList(),
+                                        value: currentIntensity,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            currentIntensity = value;
+                                            _theSegment.put(
+                                              currentKey,
+                                              Segment(
+                                                programId: currentPropertyId,
+                                                segmentId: currentSequenceId,
+                                                toComplete: currentToComplete,
+                                                valueToComplete: currentValueToComplete,
+                                                toMaintain: currentToMaintain,
+                                                valueToMaintain: currentValueToMaintain,
+                                                intensity: currentIntensity,
+                                              ),
+                                            );
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                              child: Text(
-                                'PropId $currentPropertyId, '
-                                'segmId: $currentSequenceId, '
-                                'key: $currentKey, '
-                                'index: $currentIndex',
-                                style: TextStyle(fontSize: 10),
+                              SizedBox(
+                                height: 5,
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                      //TODO Must be a cleaner approach
-                    } else {
-                      return SizedBox(
-                        height: 0,
-                      );
-                    }
-                  },
-                );
-              },
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: Text(
+                                  'PropId $currentPropertyId, '
+                                  'segmId: $currentSequenceId, '
+                                  'key: $currentKey, '
+                                  'index: $currentIndex',
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                        //TODO Must be a cleaner approach
+                      } else {
+                        return SizedBox(
+                          height: 0,
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
             ),
           ),
         ],

@@ -11,78 +11,80 @@ class Help extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FlatButton(
-                child: Text(
-                  'Getting started',
-                  style: TextStyle(color: Colors.blueAccent),
-                ),
-                onPressed: () => Get.to(
-                  HelpGettingStarted(
-                    helpAppBarHeading: 'Getting Started',
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FlatButton(
+                  child: Text(
+                    'Getting started',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                  onPressed: () => Get.to(
+                    HelpGettingStarted(
+                      helpAppBarHeading: 'Getting Started',
+                    ),
                   ),
                 ),
-              ),
-              FlatButton(
-                child: Text(
-                  'Connecting to the Waterrower',
-                  style: TextStyle(color: Colors.blueAccent),
-                ),
-                onPressed: () => Get.to(
-                  HelpGettingStarted(
-                    helpAppBarHeading: 'Connecting to the Waterrower',
+                FlatButton(
+                  child: Text(
+                    'Connecting to the Waterrower',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                  onPressed: () => Get.to(
+                    HelpGettingStarted(
+                      helpAppBarHeading: 'Connecting to the Waterrower',
+                    ),
                   ),
                 ),
-              ),
-              FlatButton(
-                child: Text(
-                  'Heart rate monitors',
-                  style: TextStyle(color: Colors.blueAccent),
-                ),
-                onPressed: () => Get.to(
-                  HelpGettingStarted(
-                    helpAppBarHeading: 'Heart Rate Monitor',
+                FlatButton(
+                  child: Text(
+                    'Heart rate monitors',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                  onPressed: () => Get.to(
+                    HelpGettingStarted(
+                      helpAppBarHeading: 'Heart Rate Monitor',
+                    ),
                   ),
                 ),
-              ),
-              FlatButton(
-                child: Text(
-                  'Getting started',
-                  style: TextStyle(color: Colors.blueAccent),
-                ),
-                onPressed: () => Get.to(
-                  HelpGettingStarted(
-                    helpAppBarHeading: 'Getting Started',
+                FlatButton(
+                  child: Text(
+                    'Getting started',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                  onPressed: () => Get.to(
+                    HelpGettingStarted(
+                      helpAppBarHeading: 'Getting Started',
+                    ),
                   ),
                 ),
-              ),
-              FlatButton(
-                child: Text(
-                  'Connecting to the Waterrower',
-                  style: TextStyle(color: Colors.blueAccent),
-                ),
-                onPressed: () => Get.to(
-                  HelpGettingStarted(
-                    helpAppBarHeading: 'Connecting to the Waterrower',
+                FlatButton(
+                  child: Text(
+                    'Connecting to the Waterrower',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                  onPressed: () => Get.to(
+                    HelpGettingStarted(
+                      helpAppBarHeading: 'Connecting to the Waterrower',
+                    ),
                   ),
                 ),
-              ),
-              FlatButton(
-                child: Text(
-                  'Heart rate monitors',
-                  style: TextStyle(color: Colors.blueAccent),
-                ),
-                onPressed: () => Get.to(
-                  HelpGettingStarted(
-                    helpAppBarHeading: 'Heart Rate Monitors',
+                FlatButton(
+                  child: Text(
+                    'Heart rate monitors',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                  onPressed: () => Get.to(
+                    HelpGettingStarted(
+                      helpAppBarHeading: 'Heart Rate Monitors',
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

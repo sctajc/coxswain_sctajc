@@ -46,172 +46,174 @@ class ProgramList extends StatelessWidget {
 
     // int _programKeyToUse = _programBox.getAt(_programBox.length - 1).key + 1;
     // print('screen width: $screenWidth');
-    return ValueListenableBuilder(
-      valueListenable: Hive.box<Program>(programBoxName).listenable(),
-      builder: (context, Box<Program> _theProgram, _) {
-        if (_theProgram.values.isEmpty)
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                "You have no Programs. Hit the plus below to enter a program",
-                style: TextStyle(
-                  color: kColorBlue,
+    return Scrollbar(
+      child: ValueListenableBuilder(
+        valueListenable: Hive.box<Program>(programBoxName).listenable(),
+        builder: (context, Box<Program> _theProgram, _) {
+          if (_theProgram.values.isEmpty)
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  "You have no Programs. Hit the plus below to enter a program",
+                  style: TextStyle(
+                    color: kColorBlue,
+                  ),
                 ),
               ),
-            ),
-          );
-        return ListView.builder(
-          itemCount: _theProgram.values.length,
-          itemBuilder: (context, _index) {
-            Program _currentProgram = _theProgram.getAt(_index);
-
-            int _segmentTotalForProgram = 0;
-            _segmentBox.values
-                .where((element) => element.programId == _currentProgram.programId)
-                .forEach((element) {
-              _segmentTotalForProgram += 1;
-            });
-            print(
-              'For Program ${_currentProgram.programId} segment total: $_segmentTotalForProgram',
             );
+          return ListView.builder(
+            itemCount: _theProgram.values.length,
+            itemBuilder: (context, _index) {
+              Program _currentProgram = _theProgram.getAt(_index);
 
-            return ListTile(
-              title: Row(
-                children: [
-                  SizedBox(
-                    width: _screenWidth * .45,
-                    child: Text(
-                      '${_currentProgram.programName}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  SizedBox(
-                    width: _screenWidth * 0.25,
-                    child: Text(
-                      '28 minutes',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w300,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-              subtitle: Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        color: Colors.blue,
-                        width: _screenWidth * .10,
-                        height: 17,
-                      ),
-                      Container(
-                        width: _screenWidth * .45,
-                        height: 17,
-                        color: Colors.orange,
-                      ),
-                      Container(
-                        width: _screenWidth * .15,
-                        height: 17,
-                        color: Colors.purple,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Prog Id: ${_currentProgram.programId},'
-                        ' segments: $_segmentTotalForProgram'
-                        ' key: ${_currentProgram.key}, index: $_index,',
-                        style: TextStyle(fontSize: 10),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              onTap: () {
-                Get.to(
-                  WorkoutScreen(),
-                );
-              },
-              trailing: PopupMenuButton(
-                color: Colors.blue[300],
-                itemBuilder: (BuildContext context) {
-                  return [
-                    PopupMenuItem(
-                      child: FlatButton(
-                        child: Text('Select'),
-                        onPressed: () {
-                          Get.off(
-                            WorkoutScreen(),
-                          );
-                        },
-                      ),
-                    ),
-                    PopupMenuItem(
-                      child: FlatButton(
-                        child: Text('Edit'),
-                        onPressed: () {
-                          Get.off(
-                            ProgramAddEdit(
-                              currentProgramKey: _currentProgram.key,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    PopupMenuItem(
-                      child: FlatButton(
-                        child: Text('Share'),
-                        onPressed: () {
-                          Get.snackbar(
-                            'Share your program with others via email?',
-                            'One day will be possible',
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-                        },
-                      ),
-                    ),
-                    PopupMenuItem(
-                      child: FlatButton(
-                        child: Text('Duplicate'),
-                        onPressed: () {
-                          _programBox.add(
-                            Program(
-                                programId: _programKeyToUse,
-                                programName: '${_currentProgram.programName} - Duplicate'),
-                          );
-                          Get.back();
-                        },
-                      ),
-                    ),
-                    PopupMenuItem(
-                      child: FlatButton(
-                        child: Text('Delete'),
-                        onPressed: () {
-                          _currentProgram.delete();
-                          _segmentBox.values
-                              .where((element) => element.programId == _currentProgram.programId)
-                              .forEach((element) => element.delete());
+              int _segmentTotalForProgram = 0;
+              _segmentBox.values
+                  .where((element) => element.programId == _currentProgram.programId)
+                  .forEach((element) {
+                _segmentTotalForProgram += 1;
+              });
+              print(
+                'For Program ${_currentProgram.programId} segment total: $_segmentTotalForProgram',
+              );
 
-                          Get.back();
-                        },
+              return ListTile(
+                title: Row(
+                  children: [
+                    SizedBox(
+                      width: _screenWidth * .45,
+                      child: Text(
+                        '${_currentProgram.programName}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ];
+                    SizedBox(
+                      width: _screenWidth * 0.25,
+                      child: Text(
+                        '28 minutes',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w300,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                subtitle: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          color: Colors.blue,
+                          width: _screenWidth * .10,
+                          height: 17,
+                        ),
+                        Container(
+                          width: _screenWidth * .45,
+                          height: 17,
+                          color: Colors.orange,
+                        ),
+                        Container(
+                          width: _screenWidth * .15,
+                          height: 17,
+                          color: Colors.purple,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Prog Id: ${_currentProgram.programId},'
+                          ' segments: $_segmentTotalForProgram'
+                          ' key: ${_currentProgram.key}, index: $_index,',
+                          style: TextStyle(fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  Get.to(
+                    WorkoutScreen(),
+                  );
                 },
-              ),
-            );
-          },
-        );
-      },
+                trailing: PopupMenuButton(
+                  color: Colors.blue[300],
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PopupMenuItem(
+                        child: FlatButton(
+                          child: Text('Select'),
+                          onPressed: () {
+                            Get.off(
+                              WorkoutScreen(),
+                            );
+                          },
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: FlatButton(
+                          child: Text('Edit'),
+                          onPressed: () {
+                            Get.off(
+                              ProgramAddEdit(
+                                currentProgramKey: _currentProgram.key,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: FlatButton(
+                          child: Text('Share'),
+                          onPressed: () {
+                            Get.snackbar(
+                              'Share your program with others via email?',
+                              'One day will be possible',
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                          },
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: FlatButton(
+                          child: Text('Duplicate'),
+                          onPressed: () {
+                            _programBox.add(
+                              Program(
+                                  programId: _programKeyToUse,
+                                  programName: '${_currentProgram.programName} - Duplicate'),
+                            );
+                            Get.back();
+                          },
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: FlatButton(
+                          child: Text('Delete'),
+                          onPressed: () {
+                            _currentProgram.delete();
+                            _segmentBox.values
+                                .where((element) => element.programId == _currentProgram.programId)
+                                .forEach((element) => element.delete());
+
+                            Get.back();
+                          },
+                        ),
+                      ),
+                    ];
+                  },
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
