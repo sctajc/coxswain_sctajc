@@ -41,7 +41,7 @@ class ProgramList extends StatelessWidget {
 
     int _programKeyToUse = 0;
     if (_programBox.length > 0) {
-      _programKeyToUse = _programBox.getAt(_programBox.length - 1).key + 1;
+      _programKeyToUse = _programBox.getAt(_programBox.length - 1)!.key + 1;
     }
 
     // int _programKeyToUse = _programBox.getAt(_programBox.length - 1).key + 1;
@@ -65,7 +65,7 @@ class ProgramList extends StatelessWidget {
           return ListView.builder(
             itemCount: _theProgram.values.length,
             itemBuilder: (context, _index) {
-              Program _currentProgram = _theProgram.getAt(_index);
+              Program _currentProgram = _theProgram.getAt(_index)!;
 
               int _segmentTotalForProgram = 0;
               _segmentBox.values
@@ -138,30 +138,28 @@ class ProgramList extends StatelessWidget {
                   ],
                 ),
                 onTap: () {
-                  Get.to(
-                    WorkoutScreen(),
-                  );
+                  Get.to(() => WorkoutScreen());
                 },
                 trailing: PopupMenuButton(
                   color: Colors.blue[300],
                   itemBuilder: (BuildContext context) {
                     return [
                       PopupMenuItem(
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text('Select'),
                           onPressed: () {
                             Get.off(
-                              WorkoutScreen(),
+                              () => WorkoutScreen(),
                             );
                           },
                         ),
                       ),
                       PopupMenuItem(
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text('Edit'),
                           onPressed: () {
                             Get.off(
-                              ProgramAddEdit(
+                              () => ProgramAddEdit(
                                 currentProgramKey: _currentProgram.key,
                               ),
                             );
@@ -169,7 +167,7 @@ class ProgramList extends StatelessWidget {
                         ),
                       ),
                       PopupMenuItem(
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text('Share'),
                           onPressed: () {
                             Get.snackbar(
@@ -181,7 +179,7 @@ class ProgramList extends StatelessWidget {
                         ),
                       ),
                       PopupMenuItem(
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text('Duplicate'),
                           onPressed: () {
                             _programBox.add(
@@ -194,7 +192,7 @@ class ProgramList extends StatelessWidget {
                         ),
                       ),
                       PopupMenuItem(
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text('Delete'),
                           onPressed: () {
                             _currentProgram.delete();

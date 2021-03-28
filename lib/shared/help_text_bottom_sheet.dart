@@ -6,7 +6,7 @@ class HelpTextBottomSheet extends StatelessWidget {
   final String helpTextOne;
   final helpTextTwo;
 
-  HelpTextBottomSheet({this.helpTextOne, this.helpTextTwo});
+  HelpTextBottomSheet({required this.helpTextOne, this.helpTextTwo});
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +17,13 @@ class HelpTextBottomSheet extends StatelessWidget {
           height: 200,
           decoration: BoxDecoration(
             color: kColorBlue,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+            borderRadius:
+                BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
             boxShadow: [
               BoxShadow(
                 blurRadius: 0,
                 spreadRadius: 0,
-                color: Colors.blue[300],
+                color: Colors.blue[300]!,
               )
             ],
           ),

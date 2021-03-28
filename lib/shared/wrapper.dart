@@ -10,7 +10,6 @@ import 'package:coxswain/screens/user_settings/user_settings.dart';
 import 'package:coxswain/screens/workouts/workouts_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:coxswain/shared/constants.dart';
 
 class Wrapper extends StatefulWidget {
@@ -19,7 +18,7 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  late TabController _tabController;
 
   @override
   void initState() {
@@ -87,43 +86,40 @@ class _WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
           itemBuilder: (BuildContext context) {
             return [
               PopupMenuItem(
-                // child: IconButton(icon: Icon(Icons.settings), onPressed: null),
-                child: FlatButton.icon(
+                child: TextButton.icon(
                   label: Text('Settings'),
                   icon: Icon(Icons.settings),
-                  onPressed: () => Get.off(
-                    UserSettings(),
-                  ),
+                  onPressed: () => Get.off(() => UserSettings()),
                 ),
               ),
               PopupMenuItem(
-                child: FlatButton(
+                child: TextButton(
                   child: Text('Beginners'),
-                  onPressed: () => Get.off(UserLevel()),
+                  onPressed: () => Get.off(() => UserLevel()),
                 ),
               ),
               PopupMenuItem(
-                child: FlatButton(
+                child: TextButton(
                   child: Text('Stretching'),
-                  onPressed: () => Get.off(Stretching()),
+                  onPressed: () => Get.off(() => Stretching()),
                 ),
               ),
               PopupMenuItem(
-                child: FlatButton(
+                child: TextButton(
                   child: Text('Import/Export'),
-                  onPressed: () => Get.off(ImportExport()),
+                  onPressed: () => Get.off(() => ImportExport()),
                 ),
               ),
               PopupMenuItem(
-                child: FlatButton(
-                    child: Text('Help'),
-                    onPressed: () => Get.off(Help()) //Help(),
-                    ),
+                child: TextButton(
+                  child: Text('Help'),
+                  onPressed: () => Get.off(() => Help()),
+                ),
               ),
               PopupMenuItem(
-                child: FlatButton(
+                child: TextButton(
                   child: Text('About'),
-                  onPressed: () => Get.off(About()),
+                  onPressed: () => Get.off(() => About()),
                 ),
               ),
             ];
@@ -158,6 +154,6 @@ class _WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
               ProgramAddEdit(),
             ),
           )
-        : null;
+        : SizedBox();
   }
 }

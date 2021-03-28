@@ -20,10 +20,8 @@ const kColorOrangeBold = Color(0xffbe7000);
 const kColorBlue = Color(0xff1691e6);
 const kColorCardChildren = Color(0xffF0F0F0);
 const kHeading = TextStyle(fontWeight: FontWeight.bold, color: kColorOrange);
-const kFieldHeading =
-    TextStyle(fontWeight: FontWeight.normal, color: kColorOrange);
-const kInputText =
-    TextStyle(fontWeight: FontWeight.normal, color: Colors.black);
+const kFieldHeading = TextStyle(fontWeight: FontWeight.normal, color: kColorOrange);
+const kInputText = TextStyle(fontWeight: FontWeight.normal, color: Colors.black);
 
 // hive Box names
 const userSettingsBoxName = 'user_settings';
@@ -34,8 +32,7 @@ const segmentBoxName = 'segments';
 String kFieldUserName = 'user_name';
 String kFieldUserWeight = 'user_weight';
 String kFieldWeight = 'weight_type'; // 0 = Kg, 1 = pounds
-String kFieldAdjustEnergyToBodyWeight =
-    'adjust_to_body_weight'; // 0 = yes, 1 =no
+String kFieldAdjustEnergyToBodyWeight = 'adjust_to_body_weight'; // 0 = yes, 1 =no
 String kFieldDistance = 'distance_type';
 String kFieldSpeed = 'speed_type';
 String kFieldEnergy = 'energy_type';
@@ -53,9 +50,8 @@ String kFieldWriteLog = 'write_log'; // 0 = yes, 1 = no
 String kFieldWriteTrace = 'write_trace'; // 0 = yes, 1 = no
 
 // settings range of options for the user's weight
-var optionsUsersWeight = List<String>.generate(
-    280, (index) => (49 + (index + 1)).toString(),
-    growable: false);
+var optionsUsersWeight =
+    List<String>.generate(280, (index) => (49 + (index + 1)).toString(), growable: false);
 
 // settings range of options
 // note: make the first item the default by convention (0)
@@ -75,7 +71,7 @@ List<String> optionsEnergy = [
 
 List<String> optionsSpeedPace = [
   "minutes/500 meters",
-  "average minutes/500 meters",
+  "avg minutes/500 meters",
   "m/s",
   "kph",
   "mph",
@@ -83,10 +79,4 @@ List<String> optionsSpeedPace = [
   "kcal/hour",
 ];
 
-List<String> optionsProgramLevel = [
-  "Beginners",
-  "Keep fit",
-  "Cardio",
-  "Strength",
-  "HIIT"
-];
+List<String> optionsProgramLevel = ["Beginners", "Keep fit", "Cardio", "Strength", "HIIT"];

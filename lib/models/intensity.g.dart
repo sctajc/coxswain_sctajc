@@ -28,7 +28,7 @@ class IntensityAdapter extends TypeAdapter<Intensity> {
       case 6:
         return Intensity.RestWhite;
       default:
-        return null;
+        return Intensity.MediumYellow;
     }
   }
 
@@ -65,7 +65,5 @@ class IntensityAdapter extends TypeAdapter<Intensity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is IntensityAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is IntensityAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

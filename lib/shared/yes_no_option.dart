@@ -6,21 +6,21 @@ import 'package:coxswain/shared/help_text_bottom_sheet.dart';
 
 class YesNoOption extends StatelessWidget {
   const YesNoOption({
-    Key key,
-    @required Box userSettingsBox,
-    @required String optionHeading,
-    @required int selectedInitialValue,
-    @required String databaseFieldName,
-    @required String helpLineOne,
-    @required String helpLineTwo,
+    // required Key key,
+    required Box userSettingsBox,
+    required String optionHeading,
+    required int selectedInitialValue,
+    required String databaseFieldName,
+    required String helpLineOne,
+    required String helpLineTwo,
     @required this.context,
   })  : userSettingsBox = userSettingsBox,
         optionHeading = optionHeading,
         selectedInitialValue = selectedInitialValue,
         databaseFieldName = databaseFieldName,
         helpLineOne = helpLineOne,
-        helpLineTwo = helpLineTwo,
-        super(key: key);
+        helpLineTwo = helpLineTwo;
+  // super(key: key);
 
   final Box userSettingsBox;
   final String optionHeading;

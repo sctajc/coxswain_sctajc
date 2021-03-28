@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class HelpGettingStarted extends StatelessWidget {
   final String helpAppBarHeading;
-  HelpGettingStarted({this.helpAppBarHeading});
+  HelpGettingStarted({required this.helpAppBarHeading});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

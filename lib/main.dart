@@ -60,12 +60,21 @@ class MyApp extends StatelessWidget {
         indent: 15,
         endIndent: 75,
       ),
-      buttonTheme: ButtonThemeData(
-        buttonColor: kColorOrange, // Background color (orange in my case).
-        textTheme: ButtonTextTheme.accent,
-        colorScheme: Theme.of(context)
-            .colorScheme
-            .copyWith(secondary: Colors.white), // Text color
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          primary: Colors.black,
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: TextButton.styleFrom(
+          primary: kColorOrange,
+          elevation: 20,
+          shadowColor: Colors.greenAccent,
+          shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: TextButton.styleFrom(primary: kColorOrange),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         foregroundColor: Colors.white,

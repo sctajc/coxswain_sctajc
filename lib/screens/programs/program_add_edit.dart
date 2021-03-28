@@ -5,8 +5,6 @@ import 'package:coxswain/models/to_complete.dart';
 import 'package:coxswain/models/to_maintain.dart';
 import 'package:coxswain/shared/constants.dart';
 import 'package:coxswain/shared/help_text_bottom_sheet.dart';
-import 'package:direct_select_flutter/direct_select_item.dart';
-import 'package:direct_select_flutter/direct_select_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -53,19 +51,19 @@ class _ProgramAddEditState extends State<ProgramAddEdit> {
       } else {
         // if editing a segment while still adding a new program, don't increase _programIdToUse
         if (_startedEnteringProgramName) {
-          _programIdToUse = _programBox.getAt(_programBox.length - 1).key;
+          _programIdToUse = _programBox.getAt(_programBox.length - 1)!.key;
         } else {
-          _programIdToUse = _programBox.getAt(_programBox.length - 1).key + 1;
+          _programIdToUse = _programBox.getAt(_programBox.length - 1)!.key + 1;
         }
-        _nextSegmentIdToUse = _segmentBox.getAt(_segmentBox.length - 1).key + 1;
+        _nextSegmentIdToUse = _segmentBox.getAt(_segmentBox.length - 1)!.key + 1;
         // print('did add 1: ${_programBox.getAt(_programBox.length - 1).key}');
       }
     } else {
       // edit an existing program
       _appBarTitle = 'Edit program';
-      _programInitialName = _programBox.get(widget.currentProgramKey).programName;
+      _programInitialName = _programBox.get(widget.currentProgramKey)!.programName;
       _programIdToUse = widget.currentProgramKey;
-      _nextSegmentIdToUse = _segmentBox.getAt(_segmentBox.length - 1).key + 1;
+      _nextSegmentIdToUse = _segmentBox.getAt(_segmentBox.length - 1)!.key + 1;
     }
 
     Color segmentIntensityColor = Colors.green;
@@ -170,6 +168,16 @@ class _ProgramAddEditState extends State<ProgramAddEdit> {
                   });
 
                   return ListView.builder(
+                    // return ReorderableListView.builder(
+                    //   onReorder: (oldIndex, newIndex) {
+                    //   // TODO get segments to save reorder
+                    //   setState(() {
+                    //     // _updateMyItems(oldIndex, newIndex);
+                    //     if (oldIndex < newIndex) {
+                    //       newIndex -= 1;
+                    //     }
+                    //   });
+                    //  },
                     shrinkWrap: true,
                     itemCount: _theSegment.values.length,
                     itemBuilder: (context, index) {
@@ -177,19 +185,23 @@ class _ProgramAddEditState extends State<ProgramAddEdit> {
                         deleteIconToDisplay = Icon(Icons.delete_outline);
                       }
 
-                      if (_theSegment.getAt(index).programId == _programIdToUse) {
+                      // print(
+                      //     '_theSegment.getAt(index).programId: ${_theSegment.getAt(index).programId}');
+                      // print('_theSegment.getAt(index).key: ${_theSegment.getAt(index).key}');
+
+                      if (_theSegment.getAt(index)!.programId == _programIdToUse) {
                         int currentIndex = index;
-                        int currentPropertyId = _theSegment.getAt(index).programId;
-                        int currentSequenceId = _theSegment.getAt(index).segmentId;
-                        int currentKey = _theSegment.getAt(index).key;
-                        ToComplete currentToComplete = _theSegment.getAt(index).toComplete;
-                        int currentValueToComplete = _theSegment.getAt(index).valueToComplete;
-                        ToMaintain currentToMaintain = _theSegment.getAt(index).toMaintain;
-                        int currentValueToMaintain = _theSegment.getAt(index).valueToMaintain;
+                        int currentPropertyId = _theSegment.getAt(index)!.programId;
+                        int currentSequenceId = _theSegment.getAt(index)!.segmentId;
+                        int currentKey = _theSegment.getAt(index)!.key;
+                        ToComplete currentToComplete = _theSegment.getAt(index)!.toComplete;
+                        int currentValueToComplete = _theSegment.getAt(index)!.valueToComplete;
+                        ToMaintain currentToMaintain = _theSegment.getAt(index)!.toMaintain;
+                        int currentValueToMaintain = _theSegment.getAt(index)!.valueToMaintain;
                         if (currentToMaintain == ToMaintain.None) {
                           currentValueToMaintain = 0;
                         }
-                        Intensity currentIntensity = _theSegment.getAt(index).intensity;
+                        Intensity currentIntensity = _theSegment.getAt(index)!.intensity;
                         switch (currentIntensity) {
                           case Intensity.WarmUpBlue:
                             {
@@ -232,283 +244,296 @@ class _ProgramAddEditState extends State<ProgramAddEdit> {
                             break;
                         }
 
-                        return ListTile(
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(10, 0, 1, 0),
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            width: 120,
-                                            child: Container(
-                                              alignment: Alignment.bottomLeft,
-                                              color: Colors.grey[300],
-                                              child: Padding(
-                                                padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                                                child: TextFormField(
+                        return ReorderableDragStartListener(
+                          key: ValueKey(index),
+                          index: index,
+                          child: ListTile(
+                            key: ValueKey(index),
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(10, 0, 1, 0),
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              width: 120,
+                                              child: Container(
+                                                alignment: Alignment.bottomLeft,
+                                                color: Colors.grey[300],
+                                                child: Padding(
+                                                  padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                                                  child: TextFormField(
                                                     keyboardType: TextInputType.number,
                                                     initialValue: currentValueToComplete.toString(),
                                                     decoration: InputDecoration(
                                                       border: InputBorder.none,
                                                     ),
                                                     onChanged: (value) {
-                                                      setState(() {
-                                                        currentValueToComplete = int.parse(value);
-                                                        print('Ok went here line 280');
-                                                        _theSegment.put(
-                                                            currentKey,
-                                                            Segment(
-                                                              programId: currentPropertyId,
-                                                              segmentId: currentSequenceId,
-                                                              toComplete: currentToComplete,
-                                                              valueToComplete:
-                                                                  currentValueToComplete,
-                                                              toMaintain: currentToMaintain,
-                                                              valueToMaintain:
-                                                                  currentValueToMaintain,
-                                                              intensity: currentIntensity,
-                                                            ));
-                                                      });
-                                                    }),
+                                                      setState(
+                                                        () {
+                                                          currentValueToComplete = int.parse(value);
+                                                          _theSegment.put(
+                                                              currentKey,
+                                                              Segment(
+                                                                programId: currentPropertyId,
+                                                                segmentId: currentSequenceId,
+                                                                toComplete: currentToComplete,
+                                                                valueToComplete:
+                                                                    currentValueToComplete,
+                                                                toMaintain: currentToMaintain,
+                                                                valueToMaintain:
+                                                                    currentValueToMaintain,
+                                                                intensity: currentIntensity,
+                                                              ));
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 1,
-                                          ),
+                                            SizedBox(
+                                              height: 1,
+                                            ),
 
-                                          // To complete drop down
-                                          SizedBox(
-                                            width: 120,
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              color: Colors.grey[300],
-                                              child: Padding(
-                                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                                child: DropdownButton<ToComplete>(
-                                                  underline: Container(color: Colors.transparent),
-                                                  items: ToCompleteString.keys.map(
-                                                    (ToComplete value) {
-                                                      return DropdownMenuItem<ToComplete>(
-                                                        value: value,
-                                                        child: Text(
-                                                          ToCompleteString[value],
-                                                          style: TextStyle(fontSize: 12),
-                                                        ),
-                                                      );
-                                                    },
-                                                  ).toList(),
-                                                  value: currentToComplete,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      currentToComplete = value;
-                                                      _theSegment.put(
-                                                        currentKey,
-                                                        Segment(
-                                                          programId: currentPropertyId,
-                                                          segmentId: currentSequenceId,
-                                                          toComplete: currentToComplete,
-                                                          valueToComplete: currentValueToComplete,
-                                                          toMaintain: currentToMaintain,
-                                                          valueToMaintain: currentValueToMaintain,
-                                                          intensity: currentIntensity,
-                                                        ),
-                                                      );
-                                                    });
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            width: 120,
-                                            child: Container(
-                                              color: Colors.grey[300],
-                                              child: Padding(
-                                                padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                                                child: TextFormField(
-                                                    keyboardType: TextInputType.number,
-                                                    initialValue: currentValueToMaintain.toString(),
-                                                    decoration: InputDecoration(
-                                                      border: InputBorder.none,
-                                                    ),
+                                            // To complete drop down
+                                            SizedBox(
+                                              width: 120,
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                color: Colors.grey[300],
+                                                child: Padding(
+                                                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                                  child: DropdownButton<ToComplete>(
+                                                    underline: Container(color: Colors.transparent),
+                                                    items: ToCompleteString.keys.map(
+                                                      (ToComplete value) {
+                                                        return DropdownMenuItem<ToComplete>(
+                                                          value: value,
+                                                          child: Text(
+                                                            ToCompleteString[value]!,
+                                                            style: TextStyle(fontSize: 12),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ).toList(),
+                                                    value: currentToComplete,
                                                     onChanged: (value) {
-                                                      if (currentToMaintain == ToMaintain.None) {
-                                                        value = 0.toString();
-                                                      }
                                                       setState(() {
-                                                        currentValueToMaintain = int.parse(value);
+                                                        currentToComplete = value!;
                                                         _theSegment.put(
-                                                            currentKey,
-                                                            Segment(
-                                                              programId: currentPropertyId,
-                                                              segmentId: currentSequenceId,
-                                                              toComplete: currentToComplete,
-                                                              valueToComplete:
-                                                                  currentValueToComplete,
-                                                              toMaintain: currentToMaintain,
-                                                              valueToMaintain:
-                                                                  currentValueToMaintain,
-                                                              intensity: currentIntensity,
-                                                            ));
+                                                          currentKey,
+                                                          Segment(
+                                                            programId: currentPropertyId,
+                                                            segmentId: currentSequenceId,
+                                                            toComplete: currentToComplete,
+                                                            valueToComplete: currentValueToComplete,
+                                                            toMaintain: currentToMaintain,
+                                                            valueToMaintain: currentValueToMaintain,
+                                                            intensity: currentIntensity,
+                                                          ),
+                                                        );
                                                       });
-                                                    }),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 1,
-                                          ),
-                                          SizedBox(
-                                            width: 120,
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              color: Colors.grey[300],
-                                              child: Padding(
-                                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                                child: DropdownButton<ToMaintain>(
-                                                  underline: Container(color: Colors.transparent),
-                                                  items: ToMaintainString.keys.map(
-                                                    (ToMaintain value) {
-                                                      return DropdownMenuItem<ToMaintain>(
-                                                        value: value,
-                                                        child: Text(
-                                                          ToMaintainString[value],
-                                                          style: TextStyle(fontSize: 12),
-                                                        ),
-                                                      );
                                                     },
-                                                  ).toList(),
-                                                  value: currentToMaintain,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      currentToMaintain = value;
-                                                      _theSegment.put(
-                                                        currentKey,
-                                                        Segment(
-                                                          programId: currentPropertyId,
-                                                          segmentId: currentSequenceId,
-                                                          toComplete: currentToComplete,
-                                                          valueToComplete: currentValueToComplete,
-                                                          toMaintain: currentToMaintain,
-                                                          valueToMaintain: currentValueToMaintain,
-                                                          intensity: currentIntensity,
-                                                        ),
-                                                      );
-                                                    });
-                                                  },
+                                                  ),
                                                 ),
                                               ),
                                             ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              width: 120,
+                                              child: Container(
+                                                color: Colors.grey[300],
+                                                child: Padding(
+                                                  padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                                                  child: TextFormField(
+                                                      keyboardType: TextInputType.number,
+                                                      initialValue:
+                                                          currentValueToMaintain.toString(),
+                                                      decoration: InputDecoration(
+                                                        border: InputBorder.none,
+                                                      ),
+                                                      onChanged: (value) {
+                                                        if (currentToMaintain == ToMaintain.None) {
+                                                          value = 0.toString();
+                                                        }
+                                                        setState(() {
+                                                          currentValueToMaintain = int.parse(value);
+                                                          _theSegment.put(
+                                                              currentKey,
+                                                              Segment(
+                                                                programId: currentPropertyId,
+                                                                segmentId: currentSequenceId,
+                                                                toComplete: currentToComplete,
+                                                                valueToComplete:
+                                                                    currentValueToComplete,
+                                                                toMaintain: currentToMaintain,
+                                                                valueToMaintain:
+                                                                    currentValueToMaintain,
+                                                                intensity: currentIntensity,
+                                                              ));
+                                                        });
+                                                      }),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 1,
+                                            ),
+                                            SizedBox(
+                                              width: 120,
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                color: Colors.grey[300],
+                                                child: Padding(
+                                                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                                  child: DropdownButton<ToMaintain>(
+                                                    underline: Container(color: Colors.transparent),
+                                                    items: ToMaintainString.keys.map(
+                                                      (ToMaintain value) {
+                                                        return DropdownMenuItem<ToMaintain>(
+                                                          value: value,
+                                                          child: Text(
+                                                            ToMaintainString[value]!,
+                                                            style: TextStyle(fontSize: 12),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ).toList(),
+                                                    value: currentToMaintain,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        currentToMaintain = value!;
+                                                        _theSegment.put(
+                                                          currentKey,
+                                                          Segment(
+                                                            programId: currentPropertyId,
+                                                            segmentId: currentSequenceId,
+                                                            toComplete: currentToComplete,
+                                                            valueToComplete: currentValueToComplete,
+                                                            toMaintain: currentToMaintain,
+                                                            valueToMaintain: currentValueToMaintain,
+                                                            intensity: currentIntensity,
+                                                          ),
+                                                        );
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 30,
+                                      ),
+                                      Column(
+                                        children: [
+                                          GestureDetector(
+                                            child: deleteIconToDisplay,
+                                            onTap: () {
+                                              setState(() {
+                                                if (_segmentTotalForProgram > 1) {
+                                                  _theSegment.deleteAt(index);
+                                                } else {
+                                                  Get.snackbar('Can not delete this segment. ',
+                                                      'A Program requires at least one Segment. ',
+                                                      snackPosition: SnackPosition.BOTTOM);
+                                                }
+                                              });
+                                            },
                                           ),
+                                          SizedBox(
+                                            height: 35,
+                                          ),
+                                          Icon(Icons.drag_handle),
                                         ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Spacer(),
-                                    GestureDetector(
-                                      child: deleteIconToDisplay,
-                                      onTap: () {
-                                        setState(() {
-                                          if (_segmentTotalForProgram > 1) {
-                                            _theSegment.deleteAt(index);
-                                          } else {
-                                            Get.snackbar('Can not delete this segment. ',
-                                                'A Program requires at least one Segment. ',
-                                                snackPosition: SnackPosition.BOTTOM);
-                                          }
-                                        });
-                                      },
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                child: SizedBox(
-                                  width: 241,
-                                  child: Container(
-                                    color: segmentIntensityColor,
-                                    height: 40,
-                                    // color: Colors.orange,
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(23, 0, 0, 0),
-                                      child: DropdownButton<Intensity>(
-                                        underline: Container(color: Colors.transparent),
-                                        items: IntensityString.keys.map(
-                                          (Intensity value) {
-                                            return DropdownMenuItem<Intensity>(
-                                              value: value,
-                                              child: Text(
-                                                IntensityString[value],
-                                                style: TextStyle(fontSize: 12),
-                                              ),
-                                            );
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: SizedBox(
+                                    width: 241,
+                                    child: Container(
+                                      color: segmentIntensityColor,
+                                      height: 40,
+                                      // color: Colors.orange,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(23, 0, 0, 0),
+                                        child: DropdownButton<Intensity>(
+                                          underline: Container(color: Colors.transparent),
+                                          items: IntensityString.keys.map(
+                                            (Intensity value) {
+                                              return DropdownMenuItem<Intensity>(
+                                                value: value,
+                                                child: Text(
+                                                  IntensityString[value]!,
+                                                  style: TextStyle(fontSize: 12),
+                                                ),
+                                              );
+                                            },
+                                          ).toList(),
+                                          value: currentIntensity,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              currentIntensity = value!;
+                                              _theSegment.put(
+                                                currentKey,
+                                                Segment(
+                                                  programId: currentPropertyId,
+                                                  segmentId: currentSequenceId,
+                                                  toComplete: currentToComplete,
+                                                  valueToComplete: currentValueToComplete,
+                                                  toMaintain: currentToMaintain,
+                                                  valueToMaintain: currentValueToMaintain,
+                                                  intensity: currentIntensity,
+                                                ),
+                                              );
+                                            });
                                           },
-                                        ).toList(),
-                                        value: currentIntensity,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            currentIntensity = value;
-                                            _theSegment.put(
-                                              currentKey,
-                                              Segment(
-                                                programId: currentPropertyId,
-                                                segmentId: currentSequenceId,
-                                                toComplete: currentToComplete,
-                                                valueToComplete: currentValueToComplete,
-                                                toMaintain: currentToMaintain,
-                                                valueToMaintain: currentValueToMaintain,
-                                                intensity: currentIntensity,
-                                              ),
-                                            );
-                                          });
-                                        },
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                child: Text(
-                                  'PropId $currentPropertyId, '
-                                  'segmId: $currentSequenceId, '
-                                  'key: $currentKey, '
-                                  'index: $currentIndex',
-                                  style: TextStyle(fontSize: 10),
+                                SizedBox(
+                                  height: 5,
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: Text(
+                                    'PropId $currentPropertyId, '
+                                    'segmId: $currentSequenceId, '
+                                    'key: $currentKey, '
+                                    'index: $currentIndex',
+                                    style: TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                         //TODO Must be a cleaner approach
                       } else {
-                        return SizedBox(
-                          height: 0,
-                        );
+                        return SizedBox();
                       }
                     },
                   );
@@ -538,121 +563,6 @@ class _ProgramAddEditState extends State<ProgramAddEdit> {
           _nextSegmentIdToUse += 1;
         },
       ),
-    );
-  }
-
-  listOptions(
-    List<String> _options,
-    int _selectedInitialValue,
-    String _optionHeading,
-    String _databaseFieldName,
-    String _helpLineOne,
-    String _helpLineTwo,
-    var context,
-  ) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: Container(
-        decoration: _getShadowDecoration(),
-        child: Card(
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              SizedBox(
-                width: 100,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                  child: Text(
-                    _optionHeading,
-                    style: kFieldHeading,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  child: Container(
-                    color: Colors.blueGrey[100],
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                      child: DirectSelectList<String>(
-                        values: _options,
-                        onUserTappedListener: () => _showScaffold(
-                          context,
-                        ),
-                        defaultItemIndex: _selectedInitialValue,
-                        itemBuilder: (String value) => getDropDownMenuItem(value),
-                        focusedItemDecoration: _getDslDecoration(),
-                        onItemSelectedListener: (item, index, context) {
-                          FocusScope.of(context).unfocus(); // dismiss keyboard
-                          // _userSettingsBox.put(_databaseFieldName, index);
-                        },
-                      ),
-                    ),
-                  ),
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 4),
-                child: _getDropdownIcon(),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: HelpTextBottomSheet(
-                  helpTextOne: _helpLineOne,
-                  helpTextTwo: _helpLineTwo,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  DirectSelectItem<String> getDropDownMenuItem(String value) {
-    return DirectSelectItem<String>(
-        itemHeight: 56,
-        value: value,
-        itemBuilder: (context, value) {
-          return Text(value);
-        });
-  }
-
-  _getDslDecoration() {
-    return BoxDecoration(
-      border: BorderDirectional(
-        bottom: BorderSide(width: 1, color: Colors.black12),
-        top: BorderSide(width: 1, color: Colors.black12),
-      ),
-    );
-  }
-
-  void _showScaffold(
-    var context,
-  ) {
-    FocusScope.of(context).unfocus(); // dismiss keyboard
-    Get.snackbar('Hold instead of tap', "then make your choice",
-        snackPosition: SnackPosition.BOTTOM);
-  }
-
-  Icon _getDropdownIcon() {
-    return Icon(
-      Icons.unfold_more,
-      color: Colors.blueAccent,
-    );
-  }
-
-  BoxDecoration _getShadowDecoration() {
-    return BoxDecoration(
-      boxShadow: <BoxShadow>[
-        new BoxShadow(
-          color: Colors.black.withOpacity(0.06),
-          spreadRadius: 4,
-          offset: new Offset(0.0, 0.0),
-          blurRadius: 15.0,
-        ),
-      ],
     );
   }
 }

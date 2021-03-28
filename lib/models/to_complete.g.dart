@@ -22,7 +22,7 @@ class ToCompleteAdapter extends TypeAdapter<ToComplete> {
       case 3:
         return ToComplete.Energy;
       default:
-        return null;
+        return ToComplete.Distance;
     }
   }
 
@@ -50,7 +50,5 @@ class ToCompleteAdapter extends TypeAdapter<ToComplete> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ToCompleteAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is ToCompleteAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

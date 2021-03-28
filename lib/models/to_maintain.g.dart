@@ -24,7 +24,7 @@ class ToMaintainAdapter extends TypeAdapter<ToMaintain> {
       case 4:
         return ToMaintain.Power;
       default:
-        return null;
+        return ToMaintain.None;
     }
   }
 
@@ -55,7 +55,5 @@ class ToMaintainAdapter extends TypeAdapter<ToMaintain> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ToMaintainAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is ToMaintainAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

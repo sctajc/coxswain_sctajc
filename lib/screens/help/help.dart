@@ -17,7 +17,7 @@ class Help extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FlatButton(
+                TextButton(
                   child: Text(
                     'Getting started',
                     style: TextStyle(color: Colors.blueAccent),
@@ -28,7 +28,7 @@ class Help extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   child: Text(
                     'Connecting to the Waterrower',
                     style: TextStyle(color: Colors.blueAccent),
@@ -39,7 +39,7 @@ class Help extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   child: Text(
                     'Heart rate monitors',
                     style: TextStyle(color: Colors.blueAccent),
@@ -50,7 +50,7 @@ class Help extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   child: Text(
                     'Getting started',
                     style: TextStyle(color: Colors.blueAccent),
@@ -61,7 +61,7 @@ class Help extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   child: Text(
                     'Connecting to the Waterrower',
                     style: TextStyle(color: Colors.blueAccent),
@@ -72,7 +72,7 @@ class Help extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   child: Text(
                     'Heart rate monitors',
                     style: TextStyle(color: Colors.blueAccent),
