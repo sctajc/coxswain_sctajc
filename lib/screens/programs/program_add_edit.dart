@@ -178,6 +178,7 @@ class _ProgramAddEditState extends State<ProgramAddEdit> {
                     //     }
                     //   });
                     //  },
+
                     shrinkWrap: true,
                     itemCount: _theSegment.values.length,
                     itemBuilder: (context, index) {
